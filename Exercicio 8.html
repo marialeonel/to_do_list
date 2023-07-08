@@ -1,0 +1,141 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+        <title id ="title">To Do List</title>
+        <style type="text/css" media="all">
+
+            body {
+                background-image: linear-gradient(to bottom, rgb(196, 108, 176), rgb(172, 89, 207), rgb(100, 100, 245));
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                min-height: 100vh;
+            }
+
+            .HoldTask {
+                font-family:sans-serif;
+                background-color: black;
+                border-radius: 20px;
+            }
+
+            label {
+                font-size: 30px;
+                font-weight: bold;
+                color: white;
+            }
+
+            .InsertTask {
+                background-color: white;
+                min-width: 80%;
+                border-radius: 20px;
+                font-family:sans-serif;
+            }
+
+            input {
+                border-radius: inherit;
+            }
+
+            ul li {
+                list-style: none;
+                font-size: 17px;
+                user-select: none;
+            }
+
+            li {
+                position: relative;
+                margin-left: 30px;
+                margin-top: -20px;
+            }
+
+            .right{
+                color:green;
+                font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+                display:none;
+            }
+
+            .wrong{
+                color:red;
+                font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+                display:none;
+            }
+
+            .checked {
+                text-decoration: line-through;
+                font-style: italic;
+                color: gray;
+            }
+            
+        </style>
+
+    </head>
+    <body>
+        <fieldset class="HoldTask">
+            <label>To Do List</label>
+            <fieldset class="InsertTask">
+                <input class="myTasks" type="text" placeholder="Add your task here!"/>
+                <button onclick="send_data()"> Submit</button>
+                <p class="right">Ok, task added with success!</p>
+                <p class="wrong">Your task needs to have more than 3 characters... </p>
+                <ul class="ok_tasks">
+    
+                </ul>
+            </fieldset>
+        </fieldset>
+
+        <script type="text/javascript" charset="utf-8"> 
+
+            function send_data() { //input checkbox
+
+                let tarefa = document.querySelector("input").value;
+
+                if (tarefa.length <= 3) {
+                    document.querySelector(".wrong").style.display = "flex";
+                    document.querySelector(".right").style.display = "none";
+                    
+                }
+                else {
+                    document.querySelector(".wrong").style.display = "none";
+                    document.querySelector(".right").style.display = "flex";
+
+                    let checkbox = document.createElement("input");
+                        checkbox.type = "checkbox";
+
+                    let li = document.createElement("li");
+                        li.textContent = document.querySelector(".myTasks").value;
+                        li.setAttribute("data-index", i);
+                    
+                    let delete_button = document.createElement("button");
+                        delete_button.textContent = "X";
+                        delete_button.addEventListener('click', (li) => {
+                            exclude(li);
+                        });
+                        li.appendChild(delete_button);
+
+                    let ul = document.querySelector(".ok_tasks");
+                        ul.appendChild(checkbox);
+                        ul.appendChild(li);
+
+                    checkbox.addEventListener('click', function() {
+                        li.classList.toggle('checked');
+                    });
+
+                    document.querySelector(".myTasks").value = [ ];
+                }
+            }
+
+            function exclude(li) {
+                let li_remove = li.target.parentNode;
+                let ul_father = document.querySelector("ok_tasks");
+                let li_child = ul_father.children;
+
+                let index = li.getAttribute("data-index");
+                ul_father.splice(index, 1);
+
+            }
+
+             
+        </script>
+
+    </body>
+</html>
