@@ -85,11 +85,12 @@
 
         <script type="text/javascript" charset="utf-8"> 
 
+            var tasks = [];
             function send_data() { //input checkbox
+                
+                let input = document.querySelector("input").value;
 
-                let tarefa = document.querySelector("input").value;
-
-                if (tarefa.length <= 3) {
+                if (input.length <= 3) {
                     document.querySelector(".wrong").style.display = "flex";
                     document.querySelector(".right").style.display = "none";
                     
@@ -103,12 +104,12 @@
 
                     let li = document.createElement("li");
                         li.textContent = document.querySelector(".myTasks").value;
-                        li.setAttribute("data-index", i);
+                        li.setAttribute("data-index", tasks.length); 
                     
                     let delete_button = document.createElement("button");
                         delete_button.textContent = "X";
-                        delete_button.addEventListener('click', (li) => {
-                            exclude(li);
+                        delete_button.addEventListener('click', (ev) => {
+                           exclude(ev);
                         });
                         li.appendChild(delete_button);
 
@@ -120,17 +121,19 @@
                         li.classList.toggle('checked');
                     });
 
+                    tasks.push(li);
                     document.querySelector(".myTasks").value = [ ];
                 }
             }
-
-            function exclude(li) {
-                let li_remove = li.target.parentNode;
-                let ul_father = document.querySelector("ok_tasks");
-                let li_child = ul_father.children;
-
-                let index = li.getAttribute("data-index");
-                ul_father.splice(index, 1);
+            
+            function exclude(ev) {
+                let li_remove = ev.target.parentNode;
+                let checkbox_remove = document.querySelector('input[type="checkbox"]');
+                
+                let index = li_remove.getAttribute("data-index");
+                li_remove.remove();
+                checkbox_remove.remove();
+                tasks.splice(index, 1);
 
             }
 
